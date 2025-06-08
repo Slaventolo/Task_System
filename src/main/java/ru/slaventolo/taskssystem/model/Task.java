@@ -1,6 +1,7 @@
 package ru.slaventolo.taskssystem.model;
 
 import jakarta.persistence.*;
+import ru.slaventolo.taskssystem.converter.TaskTypeConverter;
 
 import java.util.UUID;
 
@@ -13,46 +14,10 @@ public class Task {
     @Column(name = "task_number", nullable = false, updatable = false, unique = true)
     public int taskNumber;
 
-    private String title, projectName, taskType, status, description,  assignee;
+    private String title, projectName, status, description,  assignee;
 
-    /**
-     * конструктор для тестирования
-     */
-    public Task( UUID id,
-                 int taskNumber,
-                 String title,
-                 String projectName,
-                 String taskType,
-                 String status,
-                 String description,
-                 String assignee
-            ) {
-        this.assignee = assignee;
-        this.description = description;
-        this.status = status;
-        this.taskType = taskType;
-        this.projectName = projectName;
-        this.title = title;
-        this.taskNumber = taskNumber;
-        this.id = id;
-    }
-
-    /**
-     * констурктор для создания без передачи id и taskNumber
-     */
-    public Task(String title,
-                String projectName,
-                String taskType,
-                String status,
-                String description,
-                String assignee) {
-        this.title = title;
-        this.projectName = projectName;
-        this.taskType = taskType;
-        this.status = status;
-        this.description = description;
-        this.assignee = assignee;
-    }
+    @Convert(converter = TaskTypeConverter.class)
+    private TaskType taskType;
 
     /**
      * констурктор для создания без передачи id
@@ -60,7 +25,7 @@ public class Task {
     public Task(int taskNumber,
                 String title,
                 String projectName,
-                String taskType,
+                TaskType taskType,
                 String status,
                 String description,
                 String assignee) {
@@ -110,11 +75,11 @@ public class Task {
         this.projectName = project_name;
     }
 
-    public String getTaskType() {
+    public TaskType getTaskType() {
         return taskType;
     }
 
-    public void setTaskType(String taskType) {
+    public void setTaskType(TaskType taskType) {
         this.taskType = taskType;
     }
 

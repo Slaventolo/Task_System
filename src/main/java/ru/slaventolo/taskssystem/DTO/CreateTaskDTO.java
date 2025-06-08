@@ -1,6 +1,7 @@
 package ru.slaventolo.taskssystem.DTO;
 
 import ru.slaventolo.taskssystem.model.Task;
+import ru.slaventolo.taskssystem.model.TaskType;
 // sdsdsdsd
 
 public class CreateTaskDTO {
@@ -12,7 +13,7 @@ public class CreateTaskDTO {
         return new Task(this.getTaskNumber(),
                         this.getTitle(),
                         this.getProjectName(),
-                        this.getTaskType(),
+                        TaskType.fromDbValue(this.taskType),
                         this.getStatus(),
                         this.getDescription(),
                         this.getAssignee());

@@ -17,7 +17,7 @@ public class GetTaskDTO {
         dto.setTaskNumber(task.getTaskNumber());
         dto.setTitle(task.getTitle());
         dto.setProjectName(task.getProjectName());
-        dto.setTaskType(task.getTaskType());
+        dto.taskType = task.getTaskType().getDbValue();
         dto.setStatus(task.getStatus());
         dto.setDescription(task.getDescription());
         dto.setAssignee(task.getAssignee());
