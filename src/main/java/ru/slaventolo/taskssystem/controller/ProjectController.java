@@ -2,7 +2,6 @@ package ru.slaventolo.taskssystem.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.slaventolo.taskssystem.DTO.CreateProjectDTO;
 import ru.slaventolo.taskssystem.DTO.GetProjectDTO;
@@ -15,11 +14,9 @@ import java.util.UUID;
 @RestController
 public class ProjectController {
 
-    private final ProjectRepository projectRepository;
     private final ProjectService projectService;
 
     public ProjectController(ProjectRepository projectRepository, ProjectService projectService) {
-        this.projectRepository = projectRepository;
         this.projectService = projectService;
     }
 
@@ -29,7 +26,7 @@ public class ProjectController {
      */
     @GetMapping("/project/{id}")
     public ResponseEntity<GetProjectDTO> getProject(@PathVariable UUID id) {
-        Project project = projectRepository.getReferenceById(id);
+        Project project = projectService.getProjectById(id);
         return ResponseEntity.ok().body(GetProjectDTO.fromEntity(project));
     }
 

@@ -2,9 +2,7 @@ package ru.slaventolo.taskssystem.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.ui.Model;
 import ru.slaventolo.taskssystem.DTO.CreateTaskDTO;
 import ru.slaventolo.taskssystem.DTO.GetTaskDTO;
 import ru.slaventolo.taskssystem.model.Task;
@@ -15,7 +13,7 @@ import java.util.UUID;
 @RestController
 public class TaskController {
 
-    private TaskService taskService;
+    private final TaskService taskService;
 
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
