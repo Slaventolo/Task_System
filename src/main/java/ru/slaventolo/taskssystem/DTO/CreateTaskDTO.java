@@ -2,6 +2,7 @@ package ru.slaventolo.taskssystem.DTO;
 
 import org.springframework.lang.NonNull;
 import ru.slaventolo.taskssystem.model.Task;
+import ru.slaventolo.taskssystem.model.TaskStatus;
 import ru.slaventolo.taskssystem.model.TaskType;
 
 import java.util.UUID;
@@ -20,7 +21,7 @@ public class CreateTaskDTO {
                         this.getTitle(),
                         this.getProjectId(),
                         TaskType.fromDbValue(this.taskType),
-                        this.getStatus(),
+                        TaskStatus.fromDbValue(this.status),
                         this.getDescription(),
                         this.getAssignee());
     }

@@ -22,7 +22,7 @@ public class GetTaskDTO {
         dto.setTitle(task.getTitle());
         dto.setProjectId(task.getProjectId());
         dto.taskType = task.getTaskType().getDbValue();
-        dto.setStatus(task.getStatus());
+        dto.status = task.getStatus().getDbValue();
         dto.setDescription(task.getDescription());
         dto.setAssignee(task.getAssignee());
         return dto;

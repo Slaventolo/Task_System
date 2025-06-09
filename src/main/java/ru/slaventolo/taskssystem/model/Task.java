@@ -1,6 +1,7 @@
 package ru.slaventolo.taskssystem.model;
 
 import jakarta.persistence.*;
+import ru.slaventolo.taskssystem.converter.TaskStatusConverter;
 import ru.slaventolo.taskssystem.converter.TaskTypeConverter;
 
 import java.util.UUID;
@@ -16,7 +17,10 @@ public class Task {
 
     private UUID projectId;
 
-    private String title, status, description,  assignee;
+    private String title, description,  assignee;
+
+    @Convert(converter = TaskStatusConverter.class)
+    private TaskStatus status;
 
     @Convert(converter = TaskTypeConverter.class)
     private TaskType taskType;
@@ -28,7 +32,7 @@ public class Task {
                 String title,
                 UUID projectId,
                 TaskType taskType,
-                String status,
+                TaskStatus status,
                 String description,
                 String assignee) {
         this.taskNumber = taskNumber;
@@ -85,11 +89,11 @@ public class Task {
         this.taskType = taskType;
     }
 
-    public String getStatus() {
+    public TaskStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(TaskStatus status) {
         this.status = status;
     }
 
