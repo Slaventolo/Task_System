@@ -24,6 +24,10 @@ public class TaskService {
         return taskRepository.getReferenceById(id);
     }
 
+    public void deleteTask(UUID id) {
+        taskRepository.deleteById(id);
+    }
+
     // TODO
     public List<Task> getAllTasks() {
         return taskRepository.findAll();
@@ -34,7 +38,5 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
-    public void deleteTask(UUID id) {
-        taskRepository.deleteById(id);
-    }
+
 }

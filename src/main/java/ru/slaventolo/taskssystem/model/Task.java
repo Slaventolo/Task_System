@@ -14,24 +14,26 @@ public class Task {
     @Column(name = "task_number", nullable = false, updatable = false, unique = true)
     public int taskNumber;
 
-    private String title, projectName, status, description,  assignee;
+    private UUID projectId;
+
+    private String title, status, description,  assignee;
 
     @Convert(converter = TaskTypeConverter.class)
     private TaskType taskType;
 
     /**
-     * констурктор для создания без передачи id
+     * Констурктор для создания без передачи id
      */
     public Task(int taskNumber,
                 String title,
-                String projectName,
+                UUID projectId,
                 TaskType taskType,
                 String status,
                 String description,
                 String assignee) {
         this.taskNumber = taskNumber;
         this.title = title;
-        this.projectName = projectName;
+        this.projectId = projectId;
         this.taskType = taskType;
         this.status = status;
         this.description = description;
@@ -67,12 +69,12 @@ public class Task {
         this.title = title;
     }
 
-    public String getProjectName() {
-        return projectName;
+    public UUID getProjectId() {
+        return projectId;
     }
 
-    public void setProjectprojectName(String project_name) {
-        this.projectName = project_name;
+    public void setProjectId(UUID projectId) {
+        this.projectId = projectId;
     }
 
     public TaskType getTaskType() {

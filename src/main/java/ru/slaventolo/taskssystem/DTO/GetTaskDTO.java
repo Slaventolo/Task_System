@@ -1,5 +1,6 @@
 package ru.slaventolo.taskssystem.DTO;
 
+import org.springframework.lang.NonNull;
 import ru.slaventolo.taskssystem.model.Task;
 
 import java.util.UUID;
@@ -9,14 +10,17 @@ public class GetTaskDTO {
 
     private int taskNumber;
 
-    private String title, projectName, taskType, status, description,  assignee;
+    @NonNull
+    private UUID projectId;
+
+    private String title, taskType, status, description,  assignee;
 
     public static GetTaskDTO fromEntity(Task task) {
         GetTaskDTO dto = new GetTaskDTO();
         dto.setId(task.getId());
         dto.setTaskNumber(task.getTaskNumber());
         dto.setTitle(task.getTitle());
-        dto.setProjectName(task.getProjectName());
+        dto.setProjectId(task.getProjectId());
         dto.taskType = task.getTaskType().getDbValue();
         dto.setStatus(task.getStatus());
         dto.setDescription(task.getDescription());
@@ -48,12 +52,12 @@ public class GetTaskDTO {
         this.title = title;
     }
 
-    public String getProjectName() {
-        return projectName;
+    public UUID getProjectId() {
+        return projectId;
     }
 
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
+    public void setProjectId(UUID projectId) {
+        this.projectId = projectId;
     }
 
     public String getTaskType() {

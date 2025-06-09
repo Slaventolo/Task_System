@@ -21,13 +21,6 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-/*    @RequestMapping(value = {"/task", "/task/"}, method = RequestMethod.GET)
-    public ResponseEntity<Task> task(Model model) {
-        Task task = new Task(UUID.fromString("3fdf6d75-903a-49ad-a101-1ed2cc30cfa8"), 1, "Заголовок",
-                "Газпром", "Nonerror", "in progress", "Описание", "Ivan");
-        return ResponseEntity.ok().body(task);
-    }*/
-
     /**
      * Получение задачи по id
      */
