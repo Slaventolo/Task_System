@@ -3,7 +3,10 @@ package ru.slaventolo.taskssystem.model;
 import jakarta.persistence.*;
 import ru.slaventolo.taskssystem.converter.TaskStatusConverter;
 import ru.slaventolo.taskssystem.converter.TaskTypeConverter;
+import ru.slaventolo.taskssystem.converter.TimeSpentConverter;
 
+import java.time.Duration;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @Entity
@@ -12,7 +15,7 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "task_number", nullable = false, updatable = false, unique = true)
+    @Column(name = "task_number", nullable = false, updatable = false) //, unique = true
     public int taskNumber;
 
     private UUID projectId;
@@ -25,6 +28,20 @@ public class Task {
     @Convert(converter = TaskTypeConverter.class)
     private TaskType taskType;
 
+
+    // TODO
+    @Column(name = "timeSpent")
+    @Convert(converter = TimeSpentConverter.class)
+    Duration timeSpent;
+
+
+    // TODO
+    //@Column(name = "completeBy")
+    //@Convert(converter = CompleteByConverter.class)
+    //ZonedDateTime completeBy;
+
+
+
     /**
      * Констурктор для создания без передачи id
      */
@@ -34,7 +51,8 @@ public class Task {
                 TaskType taskType,
                 TaskStatus status,
                 String description,
-                String assignee) {
+                String assignee,
+                Duration timeSpent) {
         this.taskNumber = taskNumber;
         this.title = title;
         this.projectId = projectId;
@@ -42,6 +60,7 @@ public class Task {
         this.status = status;
         this.description = description;
         this.assignee = assignee;
+        this.timeSpent = timeSpent;
     }
 
     /**
@@ -111,5 +130,13 @@ public class Task {
 
     public void setAssignee(String assignee) {
         this.assignee = assignee;
+    }
+
+    public Duration getTimeSpent() {
+        return timeSpent;
+    }
+
+    public void setTimeSpent(Duration timeSpent) {
+        this.timeSpent = timeSpent;
     }
 }

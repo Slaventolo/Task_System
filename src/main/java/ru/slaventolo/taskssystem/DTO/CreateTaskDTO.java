@@ -5,6 +5,7 @@ import ru.slaventolo.taskssystem.model.Task;
 import ru.slaventolo.taskssystem.model.TaskStatus;
 import ru.slaventolo.taskssystem.model.TaskType;
 
+import java.time.Duration;
 import java.util.UUID;
 
 public class CreateTaskDTO {
@@ -16,6 +17,10 @@ public class CreateTaskDTO {
 
     private String title, taskType, status, description,  assignee;
 
+    private String timeSpent;
+    private String completeBy;
+
+
     public Task toEntity() {
         return new Task(this.getTaskNumber(),
                         this.getTitle(),
@@ -23,8 +28,29 @@ public class CreateTaskDTO {
                         TaskType.fromDbValue(this.taskType),
                         TaskStatus.fromDbValue(this.status),
                         this.getDescription(),
-                        this.getAssignee());
+                        this.getAssignee(),
+                        this.parseTimeSpent(this.timeSpent));
     }
+
+    public Duration parseTimeSpent(String input) {
+        if (input.contains(" ")){
+            String[] parts = input.split(" ");
+            int hours = Integer.parseInt(parts[0].substring(0, parts.length));
+            int minutes = Integer.parseInt(parts[1].substring(0, parts.length));
+            System.out.println(hours + "h " + minutes + "m");
+            System.out.println(Duration.ofHours(hours).plusMinutes(minutes).toString());
+            return Duration.ofHours(hours).plusMinutes(minutes);
+        } else if (input.contains("h")) {
+            int hours = Integer.parseInt(input.substring(0, input.length() - 1));
+            return Duration.ofHours(hours);
+        } else if (input.contains("m")) {
+            int minutes = Integer.parseInt(input.substring(0, input.length() - 1));
+            return Duration.ofMinutes(minutes);
+        }
+        return Duration.ZERO;
+    }
+
+
 
     public int getTaskNumber() {
         return taskNumber;
@@ -80,5 +106,21 @@ public class CreateTaskDTO {
 
     public void setAssignee(String assignee) {
         this.assignee = assignee;
+    }
+
+    public String getTimeSpent() {
+        return timeSpent;
+    }
+
+    public void setTimeSpent(String timeSpent) {
+        this.timeSpent = timeSpent;
+    }
+
+    public String getCompleteBy() {
+        return completeBy;
+    }
+
+    public void setCompleteBy(String completeBy) {
+        this.completeBy = completeBy;
     }
 }

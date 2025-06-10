@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.slaventolo.taskssystem.DTO.CreateTaskDTO;
 import ru.slaventolo.taskssystem.DTO.GetTaskDTO;
+import ru.slaventolo.taskssystem.DTO.UpdateTaskDTO;
 import ru.slaventolo.taskssystem.model.Task;
 import ru.slaventolo.taskssystem.service.TaskService;
 
@@ -46,5 +47,14 @@ public class TaskController {
     @DeleteMapping("/task/{id}")
     public void deleteTask(@PathVariable UUID id) {
         taskService.deleteTask(id);
+    }
+
+
+    /**
+     * Редактирование задачи по id
+     */
+    @PatchMapping("/update_task/{id}")
+    public ResponseEntity<GetTaskDTO> updateTask(@RequestBody UpdateTaskDTO updateTaskDTO, @PathVariable UUID id) {
+        return null;
     }
 }

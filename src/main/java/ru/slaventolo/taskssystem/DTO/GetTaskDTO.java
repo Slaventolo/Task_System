@@ -3,6 +3,7 @@ package ru.slaventolo.taskssystem.DTO;
 import org.springframework.lang.NonNull;
 import ru.slaventolo.taskssystem.model.Task;
 
+import java.time.Duration;
 import java.util.UUID;
 
 public class GetTaskDTO {
@@ -15,6 +16,9 @@ public class GetTaskDTO {
 
     private String title, taskType, status, description,  assignee;
 
+    private String timeSpent;
+    private String completeBy;
+
     public static GetTaskDTO fromEntity(Task task) {
         GetTaskDTO dto = new GetTaskDTO();
         dto.setId(task.getId());
@@ -25,8 +29,17 @@ public class GetTaskDTO {
         dto.status = task.getStatus().getDbValue();
         dto.setDescription(task.getDescription());
         dto.setAssignee(task.getAssignee());
+        dto.setTimeSpent(GetTaskDTO.formatDuration(task));
         return dto;
     }
+
+    public static String formatDuration(Task task) {
+        Duration duration = task.getTimeSpent();
+        long hours = duration.toHours();
+        long minutes = duration.minusHours(hours).toMinutes();
+        return minutes > 0 ? hours + "h " + minutes + "m" : hours + "h";
+    }
+
 
     public UUID getId() {
         return id;
@@ -90,5 +103,21 @@ public class GetTaskDTO {
 
     public void setAssignee(String assignee) {
         this.assignee = assignee;
+    }
+
+    public String getTimeSpent() {
+        return timeSpent;
+    }
+
+    public void setTimeSpent(String timeSpent) {
+        this.timeSpent = timeSpent;
+    }
+
+    public String getCompleteBy() {
+        return completeBy;
+    }
+
+    public void setCompleteBy(String completeBy) {
+        this.completeBy = completeBy;
     }
 }
