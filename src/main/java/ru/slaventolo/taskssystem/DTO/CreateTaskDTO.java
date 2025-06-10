@@ -33,10 +33,10 @@ public class CreateTaskDTO {
     }
 
     public Duration parseTimeSpent(String input) {
-        if (input.contains(" ")){
+        if (input.contains(" ")) {
             String[] parts = input.split(" ");
-            int hours = Integer.parseInt(parts[0].substring(0, parts.length));
-            int minutes = Integer.parseInt(parts[1].substring(0, parts.length));
+            int hours = Integer.parseInt(parts[0].substring(0, parts[0].indexOf("h")));
+            int minutes = Integer.parseInt(parts[1].substring(0, parts[1].indexOf("m")));
             System.out.println(hours + "h " + minutes + "m");
             System.out.println(Duration.ofHours(hours).plusMinutes(minutes).toString());
             return Duration.ofHours(hours).plusMinutes(minutes);
