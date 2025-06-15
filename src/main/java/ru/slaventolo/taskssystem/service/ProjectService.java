@@ -1,7 +1,10 @@
 package ru.slaventolo.taskssystem.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.slaventolo.taskssystem.model.Project;
+import ru.slaventolo.taskssystem.DTO.ProjectDto;
+import ru.slaventolo.taskssystem.converter.ProjectConverter;
+import ru.slaventolo.taskssystem.model.ProjectEntity;
 import ru.slaventolo.taskssystem.repository.ProjectRepository;
 
 import java.util.List;
@@ -10,18 +13,20 @@ import java.util.UUID;
 @Service
 public class ProjectService {
 
-    private final ProjectRepository projectRepository;
+    @Autowired
+    private ProjectRepository projectRepository;
+    @Autowired
+    private ProjectConverter projectConverter;
 
-    public ProjectService(ProjectRepository projectRepository) {
-        this.projectRepository = projectRepository;
+
+    public ProjectDto getProjectById(UUID id) {
+        var projectEntity = projectRepository.getReferenceById(id);
+        return projectConverter.toFromEntity(projectEntity);
     }
 
-    public Project getProjectById(UUID id) {
-        return projectRepository.getReferenceById(id);
-    }
-
-    public Project createProject(Project project) {
-        return projectRepository.save(project);
+    public ProjectDto createProject(ProjectDto projectDto) {
+        var projectEntity = projectConverter.entityFromTo(projectDto);
+        return projectConverter.toFromEntity(projectRepository.save(projectEntity));
     }
 
     public void deleteProject(UUID id) {
@@ -29,7 +34,7 @@ public class ProjectService {
     }
 
     // TODO
-    public List<Project> getProjects() {
+    public List<ProjectEntity> getProjects() {
         return projectRepository.findAll();
     }
 }

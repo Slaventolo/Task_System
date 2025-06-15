@@ -6,11 +6,10 @@ import ru.slaventolo.taskssystem.converter.TaskTypeConverter;
 import ru.slaventolo.taskssystem.converter.TimeSpentConverter;
 
 import java.time.Duration;
-import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @Entity
-public class Task {
+public class TaskEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -45,14 +44,14 @@ public class Task {
     /**
      * Констурктор для создания без передачи id
      */
-    public Task(int taskNumber,
-                String title,
-                UUID projectId,
-                TaskType taskType,
-                TaskStatus status,
-                String description,
-                String assignee,
-                Duration timeSpent) {
+    public TaskEntity(int taskNumber,
+                      String title,
+                      UUID projectId,
+                      TaskType taskType,
+                      TaskStatus status,
+                      String description,
+                      String assignee,
+                      Duration timeSpent) {
         this.taskNumber = taskNumber;
         this.title = title;
         this.projectId = projectId;
@@ -66,7 +65,7 @@ public class Task {
     /**
      * Пустой конструктор для Spring
      */
-    public Task() {}
+    public TaskEntity() {}
 
     public UUID getId() {
         return id;
