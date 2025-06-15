@@ -1,12 +1,12 @@
 package ru.slaventolo.taskssystem.DTO;
 
 import org.springframework.lang.NonNull;
-import ru.slaventolo.taskssystem.model.Task;
+import ru.slaventolo.taskssystem.model.TaskEntity;
 
 import java.time.Duration;
 import java.util.UUID;
 
-public class GetTaskDTO {
+public class TaskDto {
     private UUID id;
 
     private int taskNumber;
@@ -19,21 +19,8 @@ public class GetTaskDTO {
     private String timeSpent;
     private String completeBy;
 
-    public static GetTaskDTO fromEntity(Task task) {
-        GetTaskDTO dto = new GetTaskDTO();
-        dto.setId(task.getId());
-        dto.setTaskNumber(task.getTaskNumber());
-        dto.setTitle(task.getTitle());
-        dto.setProjectId(task.getProjectId());
-        dto.taskType = task.getTaskType().getDbValue();
-        dto.status = task.getStatus().getDbValue();
-        dto.setDescription(task.getDescription());
-        dto.setAssignee(task.getAssignee());
-        dto.setTimeSpent(GetTaskDTO.formatDuration(task));
-        return dto;
-    }
 
-    public static String formatDuration(Task task) {
+    public static String formatDuration(TaskEntity task) {
         Duration duration = task.getTimeSpent();
         long hours = duration.toHours();
         long minutes = duration.minusHours(hours).toMinutes();

@@ -3,10 +3,8 @@ package ru.slaventolo.taskssystem.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.slaventolo.taskssystem.DTO.CreateTaskDTO;
-import ru.slaventolo.taskssystem.DTO.GetTaskDTO;
+import ru.slaventolo.taskssystem.DTO.TaskDto;
 import ru.slaventolo.taskssystem.DTO.UpdateTaskDTO;
-import ru.slaventolo.taskssystem.model.Task;
 import ru.slaventolo.taskssystem.service.TaskService;
 
 import java.util.UUID;
@@ -24,9 +22,9 @@ public class TaskController {
      * Получение задачи по id
      */
     @GetMapping("/task/{id}")
-    public ResponseEntity<GetTaskDTO> getTask(@PathVariable UUID id) {
-        Task task = taskService.getTaskById(id);
-        return ResponseEntity.ok().body(GetTaskDTO.fromEntity(task));
+    public ResponseEntity<TaskDto> getTask(@PathVariable UUID id) {
+        var task = taskService.getTaskById(id);
+        return ResponseEntity.ok().body(task);
     }
 
 
@@ -34,10 +32,9 @@ public class TaskController {
      * Создание задачи
      */
     @PostMapping("/create_task")
-    public ResponseEntity<GetTaskDTO> createTask(@RequestBody CreateTaskDTO createTaskDTO) {
-        Task task = createTaskDTO.toEntity();
-        Task savedTask = taskService.saveTask(task);
-        return ResponseEntity.status(HttpStatus.CREATED).body(GetTaskDTO.fromEntity(savedTask));
+    public ResponseEntity<TaskDto> createTask(@RequestBody TaskDto createTaskDTO) {
+        TaskDto savedTask = taskService.saveTask(createTaskDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedTask);
     }
 
 
@@ -54,7 +51,7 @@ public class TaskController {
      * Редактирование задачи по id
      */
     @PatchMapping("/update_task/{id}")
-    public ResponseEntity<GetTaskDTO> updateTask(@RequestBody UpdateTaskDTO updateTaskDTO, @PathVariable UUID id) {
+    public ResponseEntity<TaskDto> updateTask(@RequestBody UpdateTaskDTO updateTaskDTO, @PathVariable UUID id) {
         return null;
     }
 }

@@ -1,28 +1,21 @@
 package ru.slaventolo.taskssystem.DTO;
 
-import ru.slaventolo.taskssystem.model.Project;
-
 import java.util.UUID;
 
-public class CreateProjectDTO {
+public class ProjectDto {
 
     private UUID id;
     private String name;
 
-    public Project toEntity() {
-        return new Project(this.getName());
-    }
-
-
-    public UUID getId() {
+    public UUID getId () {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId (UUID id) {
         this.id = id;
     }
 
-    public String getName() {
+    public String getName () {
         return name;
     }
 

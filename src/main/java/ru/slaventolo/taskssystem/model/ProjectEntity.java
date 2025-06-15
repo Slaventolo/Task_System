@@ -5,7 +5,8 @@ import jakarta.persistence.*;
 import java.util.UUID;
 
 @Entity
-public class Project {
+@Table(name = "Project") // Я переименовал класс, но в аннотации можно явно указать название таблицы
+public class ProjectEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -17,12 +18,12 @@ public class Project {
     /**
      * Пустой конструктор для Spring
      */
-    public Project() {}
+    public ProjectEntity() {}
 
     /**
      * конструктор создания без передачи id
      */
-    public Project(String name) {
+    public ProjectEntity(String name) {
         this.name = name;
     }
 
@@ -33,6 +34,10 @@ public class Project {
 
     public String getName() {
         return name;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public void setName(String name) {
