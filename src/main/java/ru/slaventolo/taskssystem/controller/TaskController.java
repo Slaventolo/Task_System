@@ -51,7 +51,7 @@ public class TaskController {
 
 
     /**
-     * Редактирование задачи по id
+     * Редактирование задачи по id   TODO
      */
     @PatchMapping("/update_task/{id}")
     public ResponseEntity<GetTaskDTO> updateTask(@RequestBody UpdateTaskDTO updateTaskDTO, @PathVariable UUID id) {

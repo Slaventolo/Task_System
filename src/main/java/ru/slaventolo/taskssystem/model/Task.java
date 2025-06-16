@@ -1,6 +1,7 @@
 package ru.slaventolo.taskssystem.model;
 
 import jakarta.persistence.*;
+import ru.slaventolo.taskssystem.converter.CompleteByConverter;
 import ru.slaventolo.taskssystem.converter.TaskStatusConverter;
 import ru.slaventolo.taskssystem.converter.TaskTypeConverter;
 import ru.slaventolo.taskssystem.converter.TimeSpentConverter;
@@ -28,22 +29,20 @@ public class Task {
     @Convert(converter = TaskTypeConverter.class)
     private TaskType taskType;
 
-
-    // TODO
     @Column(name = "timeSpent")
     @Convert(converter = TimeSpentConverter.class)
     Duration timeSpent;
 
 
     // TODO
-    //@Column(name = "completeBy")
-    //@Convert(converter = CompleteByConverter.class)
-    //ZonedDateTime completeBy;
+    @Column(name = "completeBy")
+    @Convert(converter = CompleteByConverter.class)
+    ZonedDateTime completeBy;
 
 
 
     /**
-     * Констурктор для создания без передачи id
+     * Конструктор для создания без передачи id
      */
     public Task(int taskNumber,
                 String title,
@@ -52,7 +51,8 @@ public class Task {
                 TaskStatus status,
                 String description,
                 String assignee,
-                Duration timeSpent) {
+                Duration timeSpent,
+                ZonedDateTime completeBy) {
         this.taskNumber = taskNumber;
         this.title = title;
         this.projectId = projectId;
@@ -61,6 +61,7 @@ public class Task {
         this.description = description;
         this.assignee = assignee;
         this.timeSpent = timeSpent;
+        this.completeBy = completeBy;
     }
 
     /**
@@ -68,6 +69,10 @@ public class Task {
      */
     public Task() {}
 
+
+    /**
+     * Геттеры и сеттеры
+     */
     public UUID getId() {
         return id;
     }
@@ -138,5 +143,13 @@ public class Task {
 
     public void setTimeSpent(Duration timeSpent) {
         this.timeSpent = timeSpent;
+    }
+
+    public ZonedDateTime getCompleteBy() {
+        return completeBy;
+    }
+
+    public void setCompleteBy(ZonedDateTime completeBy) {
+        this.completeBy = completeBy;
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.lang.NonNull;
 import ru.slaventolo.taskssystem.model.Task;
 
 import java.time.Duration;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 public class GetTaskDTO {
@@ -30,9 +31,13 @@ public class GetTaskDTO {
         dto.setDescription(task.getDescription());
         dto.setAssignee(task.getAssignee());
         dto.setTimeSpent(GetTaskDTO.formatDuration(task));
+        dto.setCompleteBy(GetTaskDTO.formatZoneDateTime(task));
         return dto;
     }
 
+    /**
+     * Возврат значения timeSpent в виде строки вида "10h 30m"
+     */
     public static String formatDuration(Task task) {
         Duration duration = task.getTimeSpent();
         long hours = duration.toHours();
@@ -40,7 +45,23 @@ public class GetTaskDTO {
         return minutes > 0 ? hours + "h " + minutes + "m" : hours + "h";
     }
 
+    /**
+     * Возврат значения completeBy в виде строки "02.01.2015 UTC+02:00"
+     */
+    public static String formatZoneDateTime(Task task) {
+        String dbZonedDateTime = task.getCompleteBy().toString();
+        String date = dbZonedDateTime.substring(8, 10)+ "." +
+                dbZonedDateTime.substring(5, 7) + "." +
+                dbZonedDateTime.substring(0, 4);
+        String time = dbZonedDateTime.substring(11, 19);
+        String zone = dbZonedDateTime.substring(26, 32);
+        return date + " " + time + " UTC" + zone;
+    }
 
+
+    /**
+     * Геттеры и сеттеры
+     */
     public UUID getId() {
         return id;
     }

@@ -20,12 +20,15 @@ public class Project {
     public Project() {}
 
     /**
-     * конструктор создания без передачи id
+     * Конструктор создания без передачи id
      */
     public Project(String name) {
         this.name = name;
     }
 
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
     public UUID getId() {
         return id;

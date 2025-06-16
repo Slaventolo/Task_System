@@ -8,17 +8,15 @@ import java.time.Duration;
 import java.time.LocalTime;
 
 @Converter
-public class TimeSpentConverter implements AttributeConverter<Duration, Time> {
+public class TimeSpentConverter implements AttributeConverter<Duration, Long> {
 
     @Override
-    public Time convertToDatabaseColumn(Duration duration) {
-        return duration == null ? null :
-                Time.valueOf(LocalTime.MIN.plus(duration));
+    public Long convertToDatabaseColumn(Duration duration) {
+        return duration == null ? null : duration.toMinutes();
     }
 
     @Override
-    public Duration convertToEntityAttribute(Time time) {
-        return time == null ? null :
-                Duration.between(LocalTime.MIN, time.toLocalTime());
+    public Duration convertToEntityAttribute(Long minutes) {
+        return minutes == null ? null : Duration.ofMinutes(minutes);
     }
 }
