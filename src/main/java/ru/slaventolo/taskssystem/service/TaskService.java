@@ -1,7 +1,10 @@
 package ru.slaventolo.taskssystem.service;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import ru.slaventolo.taskssystem.model.Task;
+import ru.slaventolo.taskssystem.repository.ProjectRepository;
 import ru.slaventolo.taskssystem.repository.TaskRepository;
 
 import java.util.List;
@@ -12,16 +15,22 @@ public class TaskService {
 
     private final TaskRepository taskRepository;
 
-    public TaskService(TaskRepository taskRepository) {
+    private final ProjectService projectService;
+
+    public TaskService(TaskRepository taskRepository, ProjectService projectService) {
         this.taskRepository = taskRepository;
+        this.projectService = projectService;
     }
 
     public Task saveTask(Task task) {
+        if (projectService.getProjectById(task.getProjectId()) == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Project not found");
+        }
         return taskRepository.save(task);
     }
 
     public Task getTaskById(UUID id) {
-        return taskRepository.getReferenceById(id);
+        return taskRepository.findById(id).orElse(null);
     }
 
     public void deleteTask(UUID id) {

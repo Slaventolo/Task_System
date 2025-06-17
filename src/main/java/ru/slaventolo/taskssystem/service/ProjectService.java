@@ -17,7 +17,12 @@ public class ProjectService {
     }
 
     public Project getProjectById(UUID id) {
-        return projectRepository.getReferenceById(id);
+        try {
+            return projectRepository.findById(id).orElse(null);
+        }
+        catch (NullPointerException e) {
+            return null;
+        }
     }
 
     public Project createProject(Project project) {
