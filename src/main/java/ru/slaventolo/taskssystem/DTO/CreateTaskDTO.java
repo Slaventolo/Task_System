@@ -58,6 +58,8 @@ public class CreateTaskDTO {
 
     /**
      * Парсинг входящей строки в виде timestamp в значение ZonedDateTime
+     * Строка приходит в виде "2019-02-22T11:37:58.074816+02:00[Africa/Cairo]"
+     * или "2019-02-22T11:37:58.074816+02:00"
      */
     public ZonedDateTime parseZoneDateTime(String input) {
         if (input == null || input == "") {
