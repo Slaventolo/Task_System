@@ -1,4 +1,4 @@
-package ru.slaventolo.taskssystem.DTO;
+package ru.slaventolo.taskssystem.Dto;
 
 import org.springframework.lang.NonNull;
 import ru.slaventolo.taskssystem.model.Task;
@@ -23,9 +23,25 @@ public class TaskDto {
     private String completeBy;
 
     /**
-     * Превращение полей из запроса в поля сущности Task
+     * Превращение полей из запроса в поля сущности Task при создании
      */
-    public Task toEntity() {
+    public Task toEntitySaveCase() {
+        return new Task(this.getTaskNumber(),
+                this.getTitle(),
+                this.getProjectId(),
+                TaskType.fromDbValue(this.taskType),
+                TaskStatus.fromDbValue(this.status),
+                this.getDescription(),
+                this.getAssignee(),
+                this.parseTimeSpent(this.timeSpent),
+                this.parseZoneDateTime(this.completeBy)
+        );
+    }
+
+    /**
+     * Превращение полей из запроса в поля сущности Task при update'е
+     */
+    public Task toEntityUpdateCase() {
         return new Task(this.getTaskNumber(),
                 this.getTitle(),
                 this.getProjectId(),

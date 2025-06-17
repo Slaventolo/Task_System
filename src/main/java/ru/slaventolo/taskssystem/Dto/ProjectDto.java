@@ -1,4 +1,4 @@
-package ru.slaventolo.taskssystem.DTO;
+package ru.slaventolo.taskssystem.Dto;
 
 import ru.slaventolo.taskssystem.model.Project;
 

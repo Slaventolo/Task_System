@@ -3,8 +3,7 @@ package ru.slaventolo.taskssystem.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.slaventolo.taskssystem.DTO.TaskDto;
-import ru.slaventolo.taskssystem.DTO.UpdateTaskDTO;
+import ru.slaventolo.taskssystem.Dto.TaskDto;
 import ru.slaventolo.taskssystem.model.Task;
 import ru.slaventolo.taskssystem.service.TaskService;
 
@@ -34,7 +33,7 @@ public class TaskController {
      */
     @PostMapping("/create_task")
     public ResponseEntity<TaskDto> createTask(@RequestBody TaskDto taskDto) {
-        Task task = taskDto.toEntity();
+        Task task = taskDto.toEntitySaveCase();
         Task savedTask = taskService.saveTask(task);
         return ResponseEntity.status(HttpStatus.CREATED).body(TaskDto.fromEntity(savedTask));
     }
@@ -50,10 +49,12 @@ public class TaskController {
 
 
     /**
-     * Редактирование задачи по id   TODO
+     * Редактирование задачи по id
      */
     @PatchMapping("/update_task/{id}")
-    public ResponseEntity<TaskDto> updateTask(@RequestBody UpdateTaskDTO updateTaskDTO, @PathVariable UUID id) {
-        return null;
+    public ResponseEntity<TaskDto> updateTask(@PathVariable UUID id, @RequestBody TaskDto taskDto) {
+        Task task = taskDto.toEntityUpdateCase();
+        Task savedTask = taskService.updateTask(id, task);
+        return ResponseEntity.ok().body(TaskDto.fromEntity(savedTask));
     }
 }

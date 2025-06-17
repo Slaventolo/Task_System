@@ -65,6 +65,27 @@ public class Task {
     }
 
     /**
+     * Конструктор для update'a без передачи id и taskNumber
+     */
+    public Task(String title,
+                UUID projectId,
+                TaskType taskType,
+                TaskStatus status,
+                String description,
+                String assignee,
+                Duration timeSpent,
+                ZonedDateTime completeBy) {
+        this.title = title;
+        this.projectId = projectId;
+        this.taskType = taskType;
+        this.status = status;
+        this.description = description;
+        this.assignee = assignee;
+        this.timeSpent = timeSpent;
+        this.completeBy = completeBy;
+    }
+
+    /**
      * Пустой конструктор для Spring
      */
     public Task() {}
