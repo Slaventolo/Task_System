@@ -9,7 +9,8 @@ import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-public class CreateTaskDTO {
+public class TaskDto {
+    private UUID id;
 
     private int taskNumber;
 
@@ -21,17 +22,19 @@ public class CreateTaskDTO {
     private String timeSpent;
     private String completeBy;
 
-
+    /**
+     * Превращение полей из запроса в поля сущности Task
+     */
     public Task toEntity() {
         return new Task(this.getTaskNumber(),
-                        this.getTitle(),
-                        this.getProjectId(),
-                        TaskType.fromDbValue(this.taskType),
-                        TaskStatus.fromDbValue(this.status),
-                        this.getDescription(),
-                        this.getAssignee(),
-                        this.parseTimeSpent(this.timeSpent),
-                        this.parseZoneDateTime(this.completeBy)
+                this.getTitle(),
+                this.getProjectId(),
+                TaskType.fromDbValue(this.taskType),
+                TaskStatus.fromDbValue(this.status),
+                this.getDescription(),
+                this.getAssignee(),
+                this.parseTimeSpent(this.timeSpent),
+                this.parseZoneDateTime(this.completeBy)
         );
     }
 
@@ -68,10 +71,59 @@ public class CreateTaskDTO {
         return ZonedDateTime.parse(input);
     }
 
+    /**
+     * Возврат полей сущности Task в поля для ответа
+     */
+    public static TaskDto fromEntity(Task task) {
+        TaskDto dto = new TaskDto();
+        dto.setId(task.getId());
+        dto.setTaskNumber(task.getTaskNumber());
+        dto.setTitle(task.getTitle());
+        dto.setProjectId(task.getProjectId());
+        dto.taskType = task.getTaskType().getDbValue();
+        dto.status = task.getStatus().getDbValue();
+        dto.setDescription(task.getDescription());
+        dto.setAssignee(task.getAssignee());
+        dto.setTimeSpent(TaskDto.formatDuration(task));
+        dto.setCompleteBy(TaskDto.formatZoneDateTime(task));
+        return dto;
+    }
+
+    /**
+     * Возврат значения timeSpent в виде строки вида "10h 30m"
+     */
+    public static String formatDuration(Task task) {
+        Duration duration = task.getTimeSpent();
+        long hours = duration.toHours();
+        long minutes = duration.minusHours(hours).toMinutes();
+        return minutes > 0 ? hours + "h " + minutes + "m" : hours + "h";
+    }
+
+    /**
+     * Возврат значения completeBy в виде строки "02.01.2015 UTC+02:00"
+     */
+    public static String formatZoneDateTime(Task task) {
+        String dbZonedDateTime = task.getCompleteBy().toString();
+        String date = dbZonedDateTime.substring(8, 10)+ "." +
+                dbZonedDateTime.substring(5, 7) + "." +
+                dbZonedDateTime.substring(0, 4);
+        String time = dbZonedDateTime.substring(11, 19);
+        String zone = dbZonedDateTime.substring(26, 32);
+        return date + " " + time + " UTC" + zone;
+    }
+
 
     /**
      * Геттеры и сеттеры
      */
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
     public int getTaskNumber() {
         return taskNumber;
     }

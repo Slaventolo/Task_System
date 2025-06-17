@@ -3,8 +3,7 @@ package ru.slaventolo.taskssystem.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.slaventolo.taskssystem.DTO.CreateProjectDTO;
-import ru.slaventolo.taskssystem.DTO.GetProjectDTO;
+import ru.slaventolo.taskssystem.DTO.ProjectDto;
 import ru.slaventolo.taskssystem.model.Project;
 import ru.slaventolo.taskssystem.repository.ProjectRepository;
 import ru.slaventolo.taskssystem.service.ProjectService;
@@ -25,9 +24,9 @@ public class ProjectController {
      * Получение проекта по id
      */
     @GetMapping("/project/{id}")
-    public ResponseEntity<GetProjectDTO> getProject(@PathVariable UUID id) {
+    public ResponseEntity<ProjectDto> getProject(@PathVariable UUID id) {
         Project project = projectService.getProjectById(id);
-        return ResponseEntity.ok().body(GetProjectDTO.fromEntity(project));
+        return ResponseEntity.ok().body(ProjectDto.fromEntity(project));
     }
 
 
@@ -35,10 +34,10 @@ public class ProjectController {
      * Создание проекта
      */
     @PostMapping("/create_project")
-    public ResponseEntity<GetProjectDTO> createProject(@RequestBody CreateProjectDTO createProjectDTO) {
-        Project project = createProjectDTO.toEntity();
+    public ResponseEntity<ProjectDto> createProject(@RequestBody ProjectDto projectDto) {
+        Project project = projectDto.toEntity();
         Project savedProject = projectService.createProject(project);
-        return ResponseEntity.status(HttpStatus.CREATED).body(GetProjectDTO.fromEntity(savedProject));
+        return ResponseEntity.status(HttpStatus.CREATED).body(ProjectDto.fromEntity(savedProject));
     }
 
 
