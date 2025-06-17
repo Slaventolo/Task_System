@@ -42,9 +42,7 @@ public class TaskDto {
      * Превращение полей из запроса в поля сущности Task при update'е
      */
     public Task toEntityUpdateCase() {
-        return new Task(this.getTaskNumber(),
-                this.getTitle(),
-                this.getProjectId(),
+        return new Task(this.getTitle(),
                 TaskType.fromDbValue(this.taskType),
                 TaskStatus.fromDbValue(this.status),
                 this.getDescription(),

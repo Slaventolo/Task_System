@@ -65,10 +65,9 @@ public class Task {
     }
 
     /**
-     * Конструктор для update'a без передачи id и taskNumber
+     * Конструктор для update'a без передачи id, taskNumber и projectId
      */
     public Task(String title,
-                UUID projectId,
                 TaskType taskType,
                 TaskStatus status,
                 String description,
@@ -76,7 +75,6 @@ public class Task {
                 Duration timeSpent,
                 ZonedDateTime completeBy) {
         this.title = title;
-        this.projectId = projectId;
         this.taskType = taskType;
         this.status = status;
         this.description = description;
