@@ -1,7 +1,9 @@
 package ru.slaventolo.taskssystem.service;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import ru.slaventolo.taskssystem.model.Task;
 import ru.slaventolo.taskssystem.repository.TaskRepository;
@@ -26,6 +28,18 @@ public class TaskService {
         if (projectService.getProjectById(task.getProjectId()) == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Project not found");
         }
+
+
+        Integer maxNumber;
+        try {
+            maxNumber = this.taskRepository.findMaxTaskNumberWithinProject(task.getProjectId());
+        } catch (Exception e) {
+            maxNumber = null;
+        }
+
+        int nextNumber = (maxNumber == null || maxNumber == 0) ? 1 : maxNumber + 1;
+        task.setTaskNumber(nextNumber);
+
         return taskRepository.save(task);
     }
 

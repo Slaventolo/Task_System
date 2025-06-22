@@ -16,7 +16,7 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "task_number", nullable = false, updatable = false) //, unique = true
+    @Column(name = "task_number", nullable = false, updatable = false)
     public int taskNumber;
 
     private UUID projectId;
@@ -33,12 +33,9 @@ public class Task {
     @Convert(converter = TimeSpentConverter.class)
     Duration timeSpent;
 
-
-    // TODO
     @Column(name = "completeBy")
     @Convert(converter = CompleteByConverter.class)
     ZonedDateTime completeBy;
-
 
 
     /**
