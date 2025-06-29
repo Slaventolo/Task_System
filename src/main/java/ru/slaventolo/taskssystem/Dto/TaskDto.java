@@ -1,5 +1,6 @@
 package ru.slaventolo.taskssystem.Dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.lang.NonNull;
 import ru.slaventolo.taskssystem.model.Task;
 import ru.slaventolo.taskssystem.model.TaskRelation;
@@ -10,6 +11,7 @@ import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class TaskDto {
     private UUID id;
@@ -24,7 +26,8 @@ public class TaskDto {
     private String timeSpent;
     private String completeBy;
 
-    private String taskRelation;
+    @JsonProperty("taskRelation")
+    private List<String> taskRelations;
 
 
 
@@ -47,10 +50,10 @@ public class TaskDto {
     /**
      * Создание связей задач
      */
-    public TaskRelation toEntitySaveRelationCase(UUID taskParentId) {
+    public TaskRelation toEntitySaveRelationCase(UUID taskParentId, UUID taskChildId) {
         return new TaskRelation(
                 taskParentId,
-                UUID.fromString(this.getTaskRelation())
+                taskChildId
         );
     }
 
@@ -104,7 +107,7 @@ public class TaskDto {
     /**
      * Возврат полей сущности Task в поля для ответа
      */
-    public static TaskDto fromEntity(Task task, TaskRelation taskRelation) {
+    public static TaskDto fromEntity(Task task, List<TaskRelation> taskRelations) {
         TaskDto dto = new TaskDto();
         dto.setId(task.getId());
         dto.setTaskNumber(task.getTaskNumber());
@@ -116,12 +119,13 @@ public class TaskDto {
         dto.setAssignee(task.getAssignee());
         dto.setTimeSpent(TaskDto.formatDuration(task));
         dto.setCompleteBy(TaskDto.formatZoneDateTime(task));
-        if (taskRelation != null) {
-            dto.setTaskRelation(String.valueOf(taskRelation.getChildTask()));
+        if (taskRelations != null) {
+            dto.setTaskRelations(taskRelations.stream().map(
+                    tr -> tr.getChildTaskId().toString())
+                    .collect(Collectors.toList()));
         } else {
-            dto.setTaskRelation(null);
+            dto.setTaskRelations(null);
         }
-        //dto.setTaskRelation(String.valueOf(taskRelation.getChildTask()));
         return dto;
     }
 
@@ -232,11 +236,11 @@ public class TaskDto {
         this.completeBy = completeBy;
     }
 
-    public String getTaskRelation() {
-        return taskRelation;
+    public List<String> getTaskRelations() {
+        return taskRelations;
     }
 
-    public void setTaskRelation(String taskRelation) {
-        this.taskRelation = taskRelation;
+    public void setTaskRelations(List<String> taskRelation) {
+        this.taskRelations = taskRelation;
     }
 }

@@ -16,11 +16,11 @@ public class TaskRelationService {
         this.taskRelationRepository = taskRelationRepository;
     }
 
-    public TaskRelation saveTaskRelation(TaskRelation taskRelation) {
-        return taskRelationRepository.save(taskRelation);
+    public List<TaskRelation> saveTaskRelation(List<TaskRelation> taskRelation) {
+        return taskRelationRepository.saveAll(taskRelation);
     }
 
-    public TaskRelation getTaskRelationByParentId(UUID parentTaskId) {
+    public List<TaskRelation> getTaskRelationsByParentId(UUID parentTaskId) {
         try {
             return taskRelationRepository.findRelatedTasks(parentTaskId);
         } catch (Exception e) {
@@ -28,8 +28,8 @@ public class TaskRelationService {
         }
     }
 
-    public void deleteTaskRelationByParentId(UUID parentTaskId) {
-        TaskRelation taskRelationList = taskRelationRepository.findRelatedTasks(parentTaskId);
-        taskRelationRepository.delete(taskRelationList);
+    public void deleteTaskRelationsByParentId(UUID parentTaskId) {
+        List<TaskRelation> taskRelationList = taskRelationRepository.findRelatedTasks(parentTaskId);
+        taskRelationRepository.deleteAll(taskRelationList);
     }
 }

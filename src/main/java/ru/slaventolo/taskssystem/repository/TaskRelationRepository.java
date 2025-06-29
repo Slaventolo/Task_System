@@ -11,5 +11,5 @@ import java.util.UUID;
 
 public interface TaskRelationRepository extends JpaRepository<TaskRelation, UUID> {
     @Query("SELECT t FROM TaskRelation t WHERE t.parentTask = :parentId")
-    TaskRelation findRelatedTasks(@Param("parentId") UUID parentId);
+    List<TaskRelation> findRelatedTasks(@Param("parentId") UUID parentId);
 }

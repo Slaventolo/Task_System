@@ -29,19 +29,19 @@ public class TaskRelation {
         return id;
     }
 
-    public UUID getParentTask() {
+    public UUID getParentTaskId() {
         return parentTask;
     }
 
-    public void setParentTask(UUID parentTask) {
+    public void setParentTaskId(UUID parentTask) {
         this.parentTask = parentTask;
     }
 
-    public UUID getChildTask() {
+    public UUID getChildTaskId() {
         return childTask;
     }
 
-    public void setChildTask(UUID childTask) {
+    public void setChildTaskId(UUID childTask) {
         this.childTask = childTask;
     }
 }
