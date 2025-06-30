@@ -14,15 +14,15 @@ public class TaskRelation {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private UUID parentTask;
+    private UUID parentTaskId;
 
-    private UUID childTask;
+    private UUID childTaskId;
 
     public TaskRelation() {}
 
     public TaskRelation(UUID parentTask, UUID childTask) {
-        this.parentTask = parentTask;
-        this.childTask = childTask;
+        this.parentTaskId = parentTask;
+        this.childTaskId = childTask;
     }
 
     public UUID getId() {
@@ -30,18 +30,18 @@ public class TaskRelation {
     }
 
     public UUID getParentTaskId() {
-        return parentTask;
+        return parentTaskId;
     }
 
-    public void setParentTaskId(UUID parentTask) {
-        this.parentTask = parentTask;
+    public void setParentTaskId(UUID parentTaskId) {
+        this.parentTaskId = parentTaskId;
     }
 
     public UUID getChildTaskId() {
-        return childTask;
+        return childTaskId;
     }
 
-    public void setChildTaskId(UUID childTask) {
-        this.childTask = childTask;
+    public void setChildTaskId(UUID childTaskId) {
+        this.childTaskId = childTaskId;
     }
 }
